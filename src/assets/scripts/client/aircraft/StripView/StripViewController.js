@@ -156,7 +156,7 @@ export default class StripViewController {
             }
 
             let stripViewModel = this._collection.findStripByAircraftId(aircraftModel.id);
-            
+
             if (typeof stripViewModel === "undefined") {
                 stripViewModel = this.createStripView(aircraftModel);
             }
@@ -253,10 +253,13 @@ export default class StripViewController {
         const stripViewModel = this._collection.findStripByAircraftId(aircraftModel.id);
 
         if (!stripViewModel) {
-            console.warn(
-                `Attempted to remove a StripViewModel for ${aircraftModel.callsign} that does not exist.` +
-                'This is likely not a fatal problem, but if you are seeing this, please let somebody know.'
-            );
+
+            if (aircraftModel.isControllable) {
+                console.warn(
+                    `Attempted to remove a StripViewModel for ${aircraftModel.callsign} that does not exist.` +
+                    'This is likely not a fatal problem, but if you are seeing this, please let somebody know.'
+                );
+            }
 
             return;
         }
@@ -284,7 +287,7 @@ export default class StripViewController {
 
         const listView = stripViewModel.isDeparture ? this.$stripViewListDepartures : this.$stripViewListArrivals
         const scrollPosition = listView.scrollTop();
-        
+
         listView.append(stripViewModel.$element);
         // shift scroll down one strip's height
         listView.scrollTop(scrollPosition + StripViewModel.HEIGHT);
