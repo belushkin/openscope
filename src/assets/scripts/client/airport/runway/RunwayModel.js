@@ -15,6 +15,7 @@ import {
     calculateCrosswindAngle,
     getOffset
 } from '../../math/flightMath';
+import { radio_runway } from '../../utilities/radioUtilities';
 import {
     km,
     km_ft,
@@ -36,7 +37,7 @@ export default class RunwayModel extends BaseModel {
      * @param end {number}
      * @param airportPositionModel {StaticPositionModel}
      */
-     // istanbul ignore next
+    // istanbul ignore next
     constructor(options = {}, end, airportPositionModel) {
         super();
 
@@ -255,6 +256,19 @@ export default class RunwayModel extends BaseModel {
     }
 
     /**
+     * Return the spoken name of the runway, spelled out into words
+     *
+     * Ex: "two six left"
+     *
+     * @for RunwayModel
+     * @method getRadioName
+     * @return {string}
+     */
+    getRadioName() {
+        return radio_runway(this.name);
+    }
+
+    /**
      * Adds the specified aircraft to the runway queue
      *
      * @for RunwayModel
@@ -335,8 +349,10 @@ export default class RunwayModel extends BaseModel {
     isOnApproachCourse(aircraftModel) {
         const approachOffset = getOffset(aircraftModel, this.relativePosition, this.angle);
         const lateralDistanceFromCourse_nm = abs(nm(approachOffset[0]));
+        const isAlignedWithCourse = lateralDistanceFromCourse_nm <= PERFORMANCE.MAXIMUM_DISTANCE_CONSIDERED_ESTABLISHED_ON_APPROACH_COURSE_NM;
+        const isNotPastRunwayThreshold = approachOffset[1] > 0;
 
-        return lateralDistanceFromCourse_nm <= PERFORMANCE.MAXIMUM_DISTANCE_CONSIDERED_ESTABLISHED_ON_APPROACH_COURSE_NM;
+        return isAlignedWithCourse && isNotPastRunwayThreshold;
     }
 
     /**

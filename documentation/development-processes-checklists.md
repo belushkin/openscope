@@ -1,7 +1,7 @@
 ## Processes of Each Sprint
 **Note**: In order to complete all of the steps below a user will need:
-- to be a member of the `openscope-admins` team within the Openscope team on GitHub
-- have access to the openscope pipeline on Heroku
+- to be a member of the `openscope-admins` team within the openScope team on GitHub
+- have access to the openScope pipeline on Heroku
 
 Each sprint is considered to progress through these three phases. Further details about each phase can be found in the sections below. The development phase lasts the majority of the sprint, with the first two days of the sprint being reserved to the initialization phase, and the last three being reserved to the testing phase.
 
@@ -73,7 +73,7 @@ At least three days prior to the end of the sprint, we will create a `release` b
 1. Create new branch `release/#.#.#` from `develop`.
 1. Open a pull request for `release/#.#.#` into `master`.
     - Include a title of the version number, eg 'v#.#.#'.
-    - Include a description of 'Deploy v#.#.#'.
+    - Include a description of copied from the `CHANGELOG`.
 1. On Heroku, change staging app to point to this new release branch.
 1. Broadcast publishing of testing app and seek feedback and/or bug reports. Any bugs should be reported to the `#bugs` room in slack and will be triaged from there.
 1. Merge any applicable bugfix branches into `release/#.#.#`.
@@ -98,3 +98,4 @@ _Only bugfix branches may be merged (to `release/#.#.# --> develop`) during this
     - Include title of the version number, eg `v#.#.#`.
     - Include a description copied from the `CHANGELOG`.
 1. Merge `master` into `develop` with `git merge master` (results in a FF) and push.
+1. On Heroku, change staging app to maintenance mode.

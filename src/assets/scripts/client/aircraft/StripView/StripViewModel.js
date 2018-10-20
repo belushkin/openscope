@@ -47,6 +47,7 @@ export default class StripViewModel extends BaseModel {
     /**
      * @constructor
      * @param aircraftModel {object}
+     * @param cidValue {number}
      */
     constructor(aircraftModel, cidValue) {
         super('stripViewModel');
@@ -67,6 +68,18 @@ export default class StripViewModel extends BaseModel {
          * @private
          */
         this._eventBus = EventBus;
+
+        /**
+         * If an aircraft is a Departure
+         *
+         * When this is true it means the aircraft is a Departure
+         * and if this is false it means the aircraft is an Arrival.
+         *
+         * @property isDeparture
+         * @type {boolean}
+         * @default false
+         */
+        this.isDeparture = false;
 
         /**
          * Root HTML Element
@@ -316,6 +329,7 @@ export default class StripViewModel extends BaseModel {
         return this._init(aircraftModel)
             ._createChildren()
             ._setupHandlers()
+            ._enable()
             ._layout()
             ._redraw();
     }
@@ -366,6 +380,7 @@ export default class StripViewModel extends BaseModel {
         this._departureAirport = departureAirportId;
         this._flightPlan = flightPlan;
         this._categoryClassName = this._buildClassnameForFlightCategory(aircraftModel);
+        this.isDeparture = aircraftModel.isDeparture();
 
         return this;
     }
@@ -405,6 +420,20 @@ export default class StripViewModel extends BaseModel {
      * @chainable
      */
     _setupHandlers() {
+        this._onClickHandler = this._onClick.bind(this);
+        this._onDoubleClickHandler = this._onDoubleClick.bind(this);
+
+        return this;
+    }
+
+    /**
+     * Register handlers with events on the `$element`
+     *
+     * @for StripViewModel
+     * @method _enable
+     * @private
+     */
+    _enable() {
         this.$element.on('click', this._onClickHandler);
         this.$element.on('dblclick', this._onDoubleClickHandler);
 
@@ -488,7 +517,6 @@ export default class StripViewModel extends BaseModel {
         this.aircraftId = '';
         this.insideCenter = false;
         this._categoryClassName = '';
-
         this._callsign = '';
         this.$callsignView = null;
         this._aircraftType = '';
@@ -523,14 +551,10 @@ export default class StripViewModel extends BaseModel {
      */
     update(aircraftModel) {
         if (!this._shouldUpdate(aircraftModel)) {
-            this.show();
-
             return;
         }
 
-        this.hide();
         this._updateStripView(aircraftModel);
-        this.show();
     }
 
     /**
@@ -554,32 +578,6 @@ export default class StripViewModel extends BaseModel {
     }
 
     /**
-     * Show the `$element`
-     *
-     * Facade for jquery method `.show()`
-     *
-     * @for StripViewModel
-     * @method show
-     * @param duration {number} [optional=0]
-     */
-    show(duration = 0) {
-        this.$element.show(duration);
-    }
-
-    /**
-     * Hide the `$element`
-     *
-     * Fascade for jquery method `.hide()`
-     *
-     * @for AircraftStripView
-     * @method hide
-     * @param duration {number} [optional=0]
-     */
-    hide(duration = 0) {
-        this.$element.hide(duration);
-    }
-
-    /**
      * Return a classname based on whether an aircraft is a `departure` or an `arrival`
      *
      * @for AircraftStripView
@@ -587,50 +585,51 @@ export default class StripViewModel extends BaseModel {
      * @return {string}
      */
     _buildClassnameForFlightCategory(aircraftModel) {
-        let className = SELECTORS.CLASSNAMES.ARRIVAL;
-
         if (aircraftModel.isDeparture()) {
-            className = SELECTORS.CLASSNAMES.DEPARTURE;
+            return SELECTORS.CLASSNAMES.DEPARTURE;
         }
 
-        return className;
+        if (aircraftModel.isOverflight()) {
+            return SELECTORS.CLASSNAMES.OVERFLIGHT;
+        }
+
+        return SELECTORS.CLASSNAMES.ARRIVAL;
     }
 
     /**
      * Click handler for a single click on `StripViewModel`
      *
-     * This handler will prevent event bubbling
+     * This method will prevent event bubbling so a click
+     * doesn't cause the `stripView` to close
      *
      * @for AircraftStripView
-     * @method _onClickHandler
+     * @method _onClick
      * @param event {jquery event}
      * @private
      */
-    _onClickHandler = (event) => {
+    _onClick(event) {
         event.stopPropagation();
 
         this._eventBus.trigger(EVENT.STRIP_CLICK, this._callsign);
-    };
+    }
 
     /**
      * Handler for a double-click on an AircraftStripView
      *
-     * Initiates a two-step event process, though undesired, is necessary.
-     * We don't (and shouldn't) have access to the `AircraftController` or the
-     * `CanvasController` from within this class.
+     * Initiates the process of centering a single aircraft in the middle of the view
      *
-     * This handler will prevent event bubbling
+     * This method should prevent event bubbling so a click doesn't cause the `stripView` to close
      *
      * @for AircraftStripView
-     * @method _onDoubleClickHandler
-     * @param  event {jquery event}
+     * @method _onDoubleClick
+     * @param  event {Event}
      * @private
      */
-    _onDoubleClickHandler = (event) => {
+    _onDoubleClick(event) {
         event.stopPropagation();
 
         this._eventBus.trigger(EVENT.STRIP_DOUBLE_CLICK, this._callsign);
-    };
+    }
 
 
     /**
@@ -658,7 +657,7 @@ export default class StripViewModel extends BaseModel {
     }
 
     /**
-     * Update class properties with new values from the `AircraftModel`
+     * Update instance properties with new values from the `AircraftModel`
      *
      * This method should only be run after `_shouldUpdate()` returns true
      * This method will only update the mutable properties of `StripViewModel`

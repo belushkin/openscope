@@ -12,7 +12,8 @@ import {
     fixValidator,
     headingValidator,
     holdValidator,
-    squawkValidator
+    squawkValidator,
+    optionalAltitudeValidator
 } from '../../../src/assets/scripts/client/parsers/aircraftCommandParser/argumentValidators';
 
 // TODO: import ERROR_MESSAGE and use actual values to test against
@@ -134,6 +135,30 @@ ava('.altitudeValidator() returns a string when passed anything other than exped
     t.true(result === 'Invalid argument. Altitude accepts only "expedite" or "x" as a second argument');
 });
 
+ava('.optionalAltitudeValidator() returns undefined when no value is passed', t => {
+    let result = optionalAltitudeValidator([]);
+    t.true(typeof result === 'undefined');
+});
+
+ava('.optionalAltitudeValidator() returns undefined when passed a valid altitude', t => {
+    let result = optionalAltitudeValidator(['100']);
+    t.true(typeof result === 'undefined');
+
+    result = optionalAltitudeValidator(['300']);
+    t.true(typeof result === 'undefined');
+
+    result = optionalAltitudeValidator(['aa']);
+    t.true(result === 'Invalid argument. Altitude must be a number');
+});
+
+ava('.optionalAltitudeValidator() returns a string when passed the wrong number of arguments', t => {
+    let result = optionalAltitudeValidator(['100', 'expedite']);
+    t.true(result === 'Invalid argument length. Expected zero or one argument');
+
+    result = optionalAltitudeValidator(['', '', '']);
+    t.true(result === 'Invalid argument length. Expected zero or one argument');
+});
+
 ava('.fixValidator() returns undefined when it receives at least one valid argument', (t) => {
     let result = fixValidator(['one']);
     t.true(typeof result === 'undefined');
@@ -186,7 +211,7 @@ ava('.headingValidator() returns undefined when passed a string and a number as 
 });
 
 ava('.holdValidator() returns a string when passed the wrong number of arguments', t => {
-    const result = holdValidator(['', 'left', '1min', '']);
+    const result = holdValidator(['', 'left', 1, '']);
     t.true(result === 'Invalid argument length. Expected zero to three arguments');
 });
 
