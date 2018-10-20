@@ -92,6 +92,13 @@ window.AIRPORT_LOAD_LIST = (function() { // eslint-disable-line wrap-iife
             premium: false,
             wip: false
         },
+        {
+            icao: 'eddl',
+            level: 'hard',
+            name: 'Flughafen Düsseldorf',
+            premium: false,
+            wip: false
+        },
         // {
         //     icao: 'eddm',
         //     level: 'hard',
@@ -113,13 +120,13 @@ window.AIRPORT_LOAD_LIST = (function() { // eslint-disable-line wrap-iife
             premium: false,
             wip: false
         },
-        // {
-        //     icao: 'eggw',
-        //     level: 'medium',
-        //     name: 'London Luton Airport',
-        //     premium: false,
-        //     wip: true
-        // },
+        {
+            icao: 'eggw',
+            level: 'easy',
+            name: 'London Luton Airport',
+            premium: false,
+            wip: false
+        },
         // {
         //     icao: 'egkk',
         //     level: 'easy',
@@ -197,27 +204,41 @@ window.AIRPORT_LOAD_LIST = (function() { // eslint-disable-line wrap-iife
         //     premium: false,
         //     wip: true
         // },
-        // {
-        //     icao: 'kabq',
-        //     level: 'easy',
-        //     name: 'Albuquerque International Sunport',
-        //     premium: false,
-        //     wip: false
-        // },
-        // {
-        //     icao: 'katl',
-        //     level: 'hard',
-        //     name: 'Hartsfield–Jackson Atlanta Int\'l',
-        //     premium: false,
-        //     wip: false
-        // },
-        // {
-        //     icao: 'kbos',
-        //     level: 'hard',
-        //     name: 'Boston Logan International Airport',
-        //     premium: false,
-        //     wip: false
-        // },
+        {
+            icao: 'kabq',
+            level: 'beginner',
+            name: 'Albuquerque International Sunport',
+            premium: false,
+            wip: false
+        },
+        {
+            icao: 'katl',
+            level: 'hard',
+            name: 'Hartsfield–Jackson Atlanta Int\'l',
+            premium: false,
+            wip: false
+        },
+        {
+            icao: 'kaus',
+            level: 'easy',
+            name: 'Austin-Bergstrom International Airport',
+            premium: false,
+            wip: false
+        },
+        {
+            icao: 'kbos',
+            level: 'hard',
+            name: 'Boston Logan International Airport',
+            premium: false,
+            wip: false
+        },
+        {
+            icao: 'kcvg',
+            level: 'beginner',
+            name: 'Cincinnati-Northern Kentucky Int\'l Airport',
+            premium: false,
+            wip: false
+        },
         {
             icao: 'kdca',
             level: 'easy',
@@ -267,13 +288,13 @@ window.AIRPORT_LOAD_LIST = (function() { // eslint-disable-line wrap-iife
         //     premium: false,
         //     wip: true
         // },
-        // {
-        //     icao: 'klas',
-        //     level: 'hard',
-        //     name: 'McCarran International Airport',
-        //     premium: false,
-        //     wip: false
-        // },
+        {
+            icao: 'klas',
+            level: 'hard',
+            name: 'McCarran International Airport',
+            premium: false,
+            wip: false
+        },
         // {
         //     icao: 'klax90',
         //     level: 'medium',
@@ -295,13 +316,13 @@ window.AIRPORT_LOAD_LIST = (function() { // eslint-disable-line wrap-iife
             premium: false,
             wip: false
         },
-        // {
-        //     icao: 'kmia',
-        //     level: 'hard',
-        //     name: 'Miami International Airport',
-        //     premium: false,
-        //     wip: true
-        // },
+        {
+            icao: 'kmia',
+            level: 'hard',
+            name: 'Miami International Airport',
+            premium: false,
+            wip: false
+        },
         // {
         //     icao: 'kmsp',
         //     level: 'hard',
@@ -371,7 +392,7 @@ window.AIRPORT_LOAD_LIST = (function() { // eslint-disable-line wrap-iife
             name: 'Seattle-Tacoma International Airport',
             premium: false,
             wip: false
-        // },
+        },
         // {
         //     icao: 'ksfo',
         //     level: 'medium',
@@ -379,13 +400,13 @@ window.AIRPORT_LOAD_LIST = (function() { // eslint-disable-line wrap-iife
         //     premium: false,
         //     wip: false
         // },
-        // {
-        //     icao: 'kstl',
-        //     level: 'medium',
-        //     name: 'St. Louis Lambert International Airport',
-        //     premium: false,
-        //     wip: false
-        // },
+        {
+            icao: 'kstl',
+            level: 'medium',
+            name: 'St. Louis Lambert International Airport',
+            premium: false,
+            wip: false
+        },
         // {
         //     icao: 'ktpa',
         //     level: 'easy',
@@ -400,13 +421,20 @@ window.AIRPORT_LOAD_LIST = (function() { // eslint-disable-line wrap-iife
         //     premium: false,
         //     wip: false
         // },
-        // {
-        //     icao: 'lkpr',
-        //     level: 'easy',
-        //     name: 'Vaclav Havel International Airport',
-        //     premium: false,
-        //     wip: true
-        // },
+        {
+            icao: 'lkpr',
+            level: 'easy',
+            name: 'Vaclav Havel International Airport',
+            premium: false,
+            wip: false
+        },
+        {
+            icao: 'lrop',
+            level: 'medium',
+            name: 'Bucharest Henri Coanda International Airport',
+            premium: false,
+            wip: false
+        },
         // {
         //     icao: 'loww',
         //     level: 'medium',
@@ -414,12 +442,20 @@ window.AIRPORT_LOAD_LIST = (function() { // eslint-disable-line wrap-iife
         //     premium: false,
         //     wip: true
         // },
-        // {
-        //     icao: 'ltba',
-        //     level: 'hard',
-        //     name: 'Atatürk International Airport',
-        //     premium: false,
-        //     wip: true
+        {
+            icao: 'lszh',
+            level: 'medium',
+            name: 'Zürich Airport',
+            premium: false,
+            wip: false
+        },
+        {
+            icao: 'ltba',
+            level: 'hard',
+            name: 'Atatürk International Airport',
+            premium: false,
+            wip: false
+        },
         // },
         // {
         //     icao: 'mdsd',
@@ -428,20 +464,20 @@ window.AIRPORT_LOAD_LIST = (function() { // eslint-disable-line wrap-iife
         //     premium: false,
         //     wip: false
         // },
-        // {
-        //     icao: 'omaa',
-        //     level: 'medium',
-        //     name: 'Abu Dhabi International Airport',
-        //     premium: false,
-        //     wip: true
-        // },
-        // {
-        //     icao: 'omdb',
-        //     level: 'hard',
-        //     name: 'Dubai International Airport',
-        //     premium: false,
-        //     wip: true
-        // },
+        {
+            icao: 'omaa',
+            level: 'easy',
+            name: 'Abu Dhabi International Airport',
+            premium: false,
+            wip: false
+        },
+        {
+            icao: 'omdb',
+            level: 'hard',
+            name: 'Dubai International Airport',
+            premium: false,
+            wip: false
+        },
         // {
         //     icao: 'osdi',
         //     level: 'easy',
@@ -449,12 +485,12 @@ window.AIRPORT_LOAD_LIST = (function() { // eslint-disable-line wrap-iife
         //     premium: false,
         //     wip: true
         // },
-        // {
-        //     icao: 'othh',
-        //     level: 'hard',
-        //     name: 'Doha Hamad International Airport',
-        //     premium: false,
-        //     wip: true
+        {
+            icao: 'othh',
+            level: 'easy',
+            name: 'Doha Hamad International Airport',
+            premium: false,
+            wip: false
         // },
         // {
         //     icao: 'panc',

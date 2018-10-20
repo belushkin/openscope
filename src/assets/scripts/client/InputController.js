@@ -309,15 +309,8 @@ export default class InputController {
      * @param aircraftModel {AircraftModel}
      */
     selectAircraft = (aircraftModel) => {
-        if (!aircraftModel) {
-            return this.deselectAircraft();
-        }
-
-        if (!aircraftModel.inside_ctr) {
-            const isWarning = true;
-            const message = `No response from: ${aircraftModel.callsign}, they are outside controlled airspace`
-
-            UiController.ui_log(message, isWarning);
+        if (!aircraftModel || !aircraftModel.isControllable) {
+            this.deselectAircraft();
 
             return;
         }
@@ -415,7 +408,7 @@ export default class InputController {
 
                 break;
             case KEY_CODES.MULTIPLY:
-                this.$commandInput.val(`${currentCommandInputValue} \u2B50 `);
+                this.$commandInput.val(`${currentCommandInputValue} * `);
                 event.preventDefault();
                 this.onCommandInputChangeHandler();
 
@@ -597,7 +590,7 @@ export default class InputController {
             throw error;
         }
 
-        if (aircraftCommandParser.command !== 'transmit') {
+        if (aircraftCommandParser.command !== PARSED_COMMAND_NAME.TRANSMIT) {
             return this.processSystemCommand(aircraftCommandParser);
         }
 
